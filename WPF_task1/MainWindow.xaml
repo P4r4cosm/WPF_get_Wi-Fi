@@ -4,10 +4,36 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF_task1"
+        xmlns:vm="clr-namespace:WPF_task1.ViewModels"
+        xmlns:debug="clr-namespace:System.Diagnostics;assembly=WindowsBase"
+        xmlns:col="clr-namespace:System.Collections;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <Button Content="Сканировать"  Height="30" Width="100" Click="Button_Click_Scan" Margin="131,310,569,94" RenderTransformOrigin="0.54,0.201"></Button>
-        <Button Content="Сохранить" Height="30" Width="100" Click="Button_Click_Save" Margin="570,310,130,94"></Button>
+        Title="Wi-Fi Searcher" Height="450" Width="800">
+    <Window.DataContext>
+        <vm:MainViewModel />
+    </Window.DataContext>
+    <Grid ShowGridLines="False">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.15*"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="0.15*" ></RowDefinition>
+        </Grid.RowDefinitions>
+        <Label x:Name="BestNetworkLable" FontSize="20" Content="{Binding BestNetwork}" ContentStringFormat="Лучшая сеть: {0}"/>
+
+        <Button x:Name="ButtonScan"
+                Grid.Column="0" Grid.Row="2" Content="Сканировать" Margin="10"
+                Command="{Binding ScanCommand}" ></Button>
+        <Button  x:Name="ButtonSave" 
+                 Grid.Column="1" Grid.Row="2" Content="Сохранить"
+                 Command="{Binding SaveCommand}" Margin="10" ></Button>
+        <DataGrid x:Name="NetworkGrid" Grid.Row="1" ItemsSource="{Binding Networks}"
+                  AutoGenerateColumns="True" Grid.ColumnSpan="2">
+            <DataGrid.Resources>
+            </DataGrid.Resources>
+        </DataGrid>
     </Grid>
 </Window>

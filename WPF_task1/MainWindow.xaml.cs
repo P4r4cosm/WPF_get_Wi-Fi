@@ -8,12 +8,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-
+using ManagedNativeWifi;
+using WPF_task1.ViewModels;
 namespace WPF_task1
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+
     public partial class MainWindow : Window
     {
         public MainWindow()
@@ -21,13 +23,5 @@ namespace WPF_task1
             InitializeComponent();
         }
 
-        private void Button_Click_Scan(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("Scan");
-        }
-        private void Button_Click_Save(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("Save");
-        }
     }
 }
