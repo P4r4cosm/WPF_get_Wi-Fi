@@ -37,11 +37,12 @@ namespace WPF_task1.ViewModels
         }
         private void ScanNetworks()
         {
-            if (NativeWifi.EnumerateInterfaces().Count() > 0)
+            
+            if (NativeWifi.EnumerateInterfaces().Count()>0)
             {
                 Networks.Clear();
-                var a = NativeWifi.EnumerateAvailableNetworks().ToList();
-                foreach (var network in a)
+                var a = NativeWifi.EnumerateAvailableNetworks();
+                foreach (var network in NativeWifi.EnumerateAvailableNetworks().ToList())
                 {
                     Networks.Add(new Network(network.Ssid.ToString(), network.SignalQuality));
                 }
@@ -50,9 +51,12 @@ namespace WPF_task1.ViewModels
             }
             else
             {
-                MessageBox.Show("Нет доступных Wi-Fi адаптеров");
+                MessageBox.Show("Нет доступных WI-FI интерфейсов");
             }
+            
         }
+        
+        
         private void SaveNetworks()
         {
             MessageBox.Show("Сохранено");

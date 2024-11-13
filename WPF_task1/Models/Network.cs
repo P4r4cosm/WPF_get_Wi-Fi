@@ -8,25 +8,26 @@ namespace WPF_task1.Models
 {
     public class Network
     {
-        private string ssid;
-        private int signalLevel;
-        public string Ssid
+       
+        public DateTime ScanTime { get; private set; }
+        public string? Ssid
         {
-            get { return ssid; }
+            get; private set;
         }
 
-        public int SignalLevel
+        public int? SignalLevel
         {
-            get { return signalLevel; }
+            get; private set;
         }
-        public Network(string ssid, int signalLevel)
+        public Network(string ssid, int signalLevel=0)
         {
-            this.ssid = ssid;
-            this.signalLevel = signalLevel;
+            Ssid = ssid;
+            SignalLevel = signalLevel;
+            ScanTime = DateTime.Now;
         }
         public override string ToString()
         {
-            return $"SSID: {ssid.ToString()} signalLever: {signalLevel.ToString()}";
+            return $"SSID: {Ssid} signalLever: {SignalLevel.ToString()}";
         }
 
     }
