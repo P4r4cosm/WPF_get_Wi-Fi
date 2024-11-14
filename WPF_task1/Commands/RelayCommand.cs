@@ -1,20 +1,40 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace WPF_task1.Commands
 {
     public class RelayCommand : ICommand
     {
-        private readonly Action _execute;
+        private readonly Func<Task> _executeAsync;
         private readonly Func<bool> _canExecute;
+        private bool _isExecuting;
 
-        public RelayCommand(Action execute, Func<bool> canExecute = null)
+        public RelayCommand(Func<Task> executeAsync, Func<bool> canExecute = null)
         {
-            _execute = execute;
+            _executeAsync = executeAsync ?? throw new ArgumentNullException(nameof(executeAsync));
             _canExecute = canExecute;
         }
 
-        public bool CanExecute(object parameter) => _canExecute == null || _canExecute();
-        public void Execute(object parameter) => _execute();
+        public bool CanExecute(object parameter) => !_isExecuting && (_canExecute == null || _canExecute());
+
+        public async void Execute(object parameter)
+        {
+            if (CanExecute(parameter))
+            {
+                try
+                {
+                    _isExecuting = true;
+                    CommandManager.InvalidateRequerySuggested(); // Обновление команды
+                    await _executeAsync();
+                }
+                finally
+                {
+                    _isExecuting = false;
+                    CommandManager.InvalidateRequerySuggested();
+                }
+            }
+        }
 
         public event EventHandler CanExecuteChanged
         {
@@ -22,5 +42,4 @@ namespace WPF_task1.Commands
             remove { CommandManager.RequerySuggested -= value; }
         }
     }
-
 }

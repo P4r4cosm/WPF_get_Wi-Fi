@@ -7,10 +7,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace WPF_task1.Models
 {
-    class NetworksDbContext : DbContext
+    class WifiDbContext : DbContext
     {
-        public DbSet<Network> Networks { get; set; }
+        public DbSet<Network> Networks { get; set; } = null!;
 
-        public NetworksDbContext(DbContextOptions<NetworksDbContext> options) : base(options) { }
+        public WifiDbContext() => Database.EnsureCreated();
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlite("Data Source=Networks.db");
+        }
     }
 }

@@ -35,13 +35,13 @@ namespace WPF_task1.ViewModels
             ScanCommand = new RelayCommand(ScanNetworks);
             SaveCommand = new RelayCommand(SaveNetworks);
         }
-        private void ScanNetworks()
+        private async Task ScanNetworks()
         {
-            
-            if (NativeWifi.EnumerateInterfaces().Count()>0)
+
+            if (NativeWifi.EnumerateInterfaces().Count() > 0)
             {
                 Networks.Clear();
-                var a = NativeWifi.EnumerateAvailableNetworks();
+                
                 foreach (var network in NativeWifi.EnumerateAvailableNetworks().ToList())
                 {
                     Networks.Add(new Network(network.Ssid.ToString(), network.SignalQuality));
@@ -53,13 +53,27 @@ namespace WPF_task1.ViewModels
             {
                 MessageBox.Show("Нет доступных WI-FI интерфейсов");
             }
-            
+
         }
-        
-        
-        private void SaveNetworks()
+
+
+        private async Task SaveNetworks()
         {
-            MessageBox.Show("Сохранено");
+            if (Networks.Count > 0)
+            {
+                using (WifiDbContext db = new WifiDbContext())
+                {
+                    await db.AddRangeAsync(Networks);
+                    await db.SaveChangesAsync();
+                    MessageBox.Show("Сохранено");
+                }
+
+            }
+            else
+            {
+                MessageBox.Show("Список сетей пуст, сохранять нечего: ");
+            }
+            
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -10,6 +10,9 @@ namespace WPF_task1.Models
     {
        
         public DateTime ScanTime { get; private set; }
+
+        public Network() { }
+        public int Id {  get; set; }
         public string? Ssid
         {
             get; private set;
