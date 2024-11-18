@@ -22,7 +22,11 @@
             <RowDefinition></RowDefinition>
             <RowDefinition Height="0.15*" ></RowDefinition>
         </Grid.RowDefinitions>
-        <Label x:Name="BestNetworkLable" FontSize="20" Content="{Binding BestNetwork}" ContentStringFormat="Лучшая сеть: {0}"/>
+        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" 
+               Content="{Binding BestNetwork}" 
+               FontSize="24" 
+               FontWeight="Bold" 
+               ContentStringFormat="Лучшая сеть: {0}" />
 
         <Button x:Name="ButtonScan"
                 Grid.Column="0" Grid.Row="2" Content="Сканировать" Margin="10"
